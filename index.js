@@ -2,12 +2,24 @@ const express = require('express');
 const http = require('http');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 //importing routes
 const PropertyRouter = require('./routes/PropertyRouter');
 
 //port
 const port = process.env.PORT || 3002;
+
+/**************************************************************************************** */
+//Database
+const MongoURI = 'mongodb+srv://ayush:ayush@ayush-obxbh.mongodb.net/<dbname>?retryWrites=true&w=majority';
+const connect = mongoose.connect(MongoURI ,{ useNewUrlParser:true , useUnifiedTopology:true });
+
+connect.then((db)=>{
+    console.log(`Connected to Database`);
+})
+.catch((err)=>console.log(err));
+/****************************************************************************************** */
 
 const app = express();
 
