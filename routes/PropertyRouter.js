@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+const authenticate = require('../authenticate');
 //model
 const Property = require('../models/Properties');
 
@@ -21,7 +21,7 @@ PropertyRouter.route('/')
     .catch(err => console.log(err));
 })
 
-.post((req,res,next)=>{
+.post(authenticate.verifyUser,(req,res,next)=>{
     Property.create(req.body)
     .then((home)=>{
         console.log('Home entered: ' , home);
@@ -32,11 +32,11 @@ PropertyRouter.route('/')
     .catch(err => console.log(err));
 })
 
-.put((req,res,next)=>{
+.put(authenticate.verifyUser,(req,res,next)=>{
     res.send('Not applicable');
 })
 
-.delete((req,res,next)=>{
+.delete(authenticate.verifyUser,(req,res,next)=>{
     Property.remove({})
     .then((resp) => {
         res.statusCode = 200;
@@ -60,7 +60,7 @@ PropertyRouter.route('/:propertyId')
     .catch(err=>console.log(err));
 })
 
-.put((req,res,next)=>{
+.put(authenticate.verifyUser,(req,res,next)=>{
     Property.findByIdAndUpdate(req.params.propertyId , {
         $set:req.body
     },{
@@ -74,7 +74,7 @@ PropertyRouter.route('/:propertyId')
     .catch(err=>console.log(err));
 })
 
-.delete((req,res,next)=>{
+.delete(authenticate.verifyUser,(req,res,next)=>{
     Property.findByIdAndRemove(req.params.propertyId)
     .then((resp) => {
         res.statusCode = 200;
@@ -106,7 +106,7 @@ PropertyRouter.route('/:propertyId/comments')
     .catch(err=>console.log(err));
 })
 
-.post((req,res,next)=>{
+.post(authenticate.verifyUser,(req,res,next)=>{
     Property.findById(req.params.propertyId)
     .then((home)=>{
         if(home!= null)
@@ -130,7 +130,7 @@ PropertyRouter.route('/:propertyId/comments')
     
 })
 
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser,(req, res, next) => {
     Property.findById(req.params.propertyId)
     .then((home) => {
         if (home != null) {
@@ -177,7 +177,7 @@ PropertyRouter.route('/:propertyId/comments/:commentId')
     })
 })
 
-.put((req,res,next)=>{
+.put(authenticate.verifyUser,(req,res,next)=>{
     Property.findById(req.params.propertyId)
     .then((home) => {
         if (home != null && home.comments.id(req.params.commentId) != null) {
@@ -208,7 +208,7 @@ PropertyRouter.route('/:propertyId/comments/:commentId')
     .catch((err) => console.log(err));
 })
 
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser,(req, res, next) => {
     Property.findById(req.params.propertyId)
     .then((home) => {
         if (home != null && home.comments.id(req.params.commentId) != null) {
