@@ -10,7 +10,7 @@ const passport = require('passport');
 //importing routes
 const PropertyRouter = require('./routes/PropertyRouter');
 const UserRouter = require('./routes/UserRouter');
-
+const uploadRouter = require('./routes/UploadRouter');
 //authenticate
 const authenticate=require('./authenticate');
 const config = require('./config');
@@ -47,7 +47,7 @@ app.use(passport.initialize());
 //routes
 app.use('/user',UserRouter);
 app.use('/home',PropertyRouter);
-
+app.use('/imageupload', uploadRouter);
 
 app.use(express.static(__dirname+'/public'));
 
