@@ -13,6 +13,7 @@ PropertyRouter.use(bodyParser.json())
 PropertyRouter.route('/')
 .get((req,res,next)=>{
     Property.find({})
+    .populate('comments.author')
     .then((home)=>{
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -52,6 +53,7 @@ PropertyRouter.route('/')
 PropertyRouter.route('/:propertyId')
 .get((req,res,next)=>{
     Property.findById(req.params.propertyId)
+    .populate('comments.author')
     .then((home)=>{
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -89,6 +91,7 @@ PropertyRouter.route('/:propertyId')
 PropertyRouter.route('/:propertyId/comments')
 .get((req,res,next)=>{
     Property.findById(req.params.propertyId)
+    .populate('comments.author')
     .then((home)=>{
         if(home != null) 
         {
@@ -111,12 +114,17 @@ PropertyRouter.route('/:propertyId/comments')
     .then((home)=>{
         if(home!= null)
         {
+            req.body.author = req.user._id;
             home.comments.push(req.body);
             home.save()
             .then((prope)=>{
-                res.statusCode =200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(prope);
+                Property.findById(prope._id)
+                    .populate('comments.author')
+                    .then((homes)=>{
+                        res.statusCode =200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json(homes);
+                    })
             })
             .catch((er)=>console.log(err));
         }
@@ -157,6 +165,7 @@ PropertyRouter.route('/:propertyId/comments')
 PropertyRouter.route('/:propertyId/comments/:commentId')
 .get((req,res,next)=>{
     Property.findById(req.params.propertyId)
+    .populate('comments.author')
     .then((home)=>{
         if(home!=null && home.comments.id(req.params.commentId)!=null) {
         res.statusCode = 401;
@@ -189,9 +198,13 @@ PropertyRouter.route('/:propertyId/comments/:commentId')
             }
             home.save()
             .then((homes) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(homes);                
+                Property.findById(homes._id)
+                .populate('comments.author')
+                .then((homess)=>{
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(homess);
+                })                 
             });
         }
         else if (home == null) {
@@ -215,9 +228,13 @@ PropertyRouter.route('/:propertyId/comments/:commentId')
             home.comments.id(req.params.commentId).remove();
             home.save()
             .then((home) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(home);                
+                Property.findById(home._id)
+                .populate('comments.author')
+                .then((homess)=>{
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(homess);
+                })                    
             });
         }
         else if (home == null) {
