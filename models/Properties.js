@@ -54,6 +54,10 @@ const PropertySchema = new Schema({
     Balconies:{
         type:Number,
     },
+    featured:{
+        type:Boolean,
+        default:false
+    },
     comments:[commentSchema]
 },{
     timestamps:true

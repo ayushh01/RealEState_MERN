@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const authenticate = require('../authenticate');
+const cors = require('./cors');
 //model
 const Property = require('../models/Properties');
 
@@ -11,7 +12,8 @@ PropertyRouter.use(bodyParser.json())
 
 //**************************    About all property     ************************************ */
 PropertyRouter.route('/')
-.get((req,res,next)=>{
+.options(cors.corsWithOptions, (req,res)=>{ res.sendStatus(200)})
+.get(cors.cors ,(req,res,next)=>{
     Property.find({})
     .populate('comments.author')
     .then((home)=>{
@@ -22,7 +24,7 @@ PropertyRouter.route('/')
     .catch(err => console.log(err));
 })
 
-.post(authenticate.verifyUser,(req,res,next)=>{
+.post(cors.corsWithOptions ,authenticate.verifyUser,(req,res,next)=>{
     Property.create(req.body)
     .then((home)=>{
         console.log('Home entered: ' , home);
@@ -33,11 +35,11 @@ PropertyRouter.route('/')
     .catch(err => console.log(err));
 })
 
-.put(authenticate.verifyUser,(req,res,next)=>{
+.put(cors.corsWithOptions ,authenticate.verifyUser,(req,res,next)=>{
     res.send('Not applicable');
 })
 
-.delete(authenticate.verifyUser,(req,res,next)=>{
+.delete(cors.corsWithOptions ,authenticate.verifyUser,(req,res,next)=>{
     Property.remove({})
     .then((resp) => {
         res.statusCode = 200;
@@ -51,7 +53,8 @@ PropertyRouter.route('/')
 /********************************* About Specific Property  ***************************************** */
 
 PropertyRouter.route('/:propertyId')
-.get((req,res,next)=>{
+.options(cors.corsWithOptions, (req,res)=>{ res.sendStatus(200)})
+.get(cors.cors ,(req,res,next)=>{
     Property.findById(req.params.propertyId)
     .populate('comments.author')
     .then((home)=>{
@@ -62,7 +65,7 @@ PropertyRouter.route('/:propertyId')
     .catch(err=>console.log(err));
 })
 
-.put(authenticate.verifyUser,(req,res,next)=>{
+.put(cors.corsWithOptions ,authenticate.verifyUser,(req,res,next)=>{
     Property.findByIdAndUpdate(req.params.propertyId , {
         $set:req.body
     },{
@@ -76,7 +79,7 @@ PropertyRouter.route('/:propertyId')
     .catch(err=>console.log(err));
 })
 
-.delete(authenticate.verifyUser,(req,res,next)=>{
+.delete(cors.corsWithOptions ,authenticate.verifyUser,(req,res,next)=>{
     Property.findByIdAndRemove(req.params.propertyId)
     .then((resp) => {
         res.statusCode = 200;
@@ -89,7 +92,8 @@ PropertyRouter.route('/:propertyId')
 
 /**************************    Comments   ************************************************** */
 PropertyRouter.route('/:propertyId/comments')
-.get((req,res,next)=>{
+.options(cors.corsWithOptions, (req,res)=>{ res.sendStatus(200)})
+.get(cors.cors ,(req,res,next)=>{
     Property.findById(req.params.propertyId)
     .populate('comments.author')
     .then((home)=>{
@@ -109,7 +113,7 @@ PropertyRouter.route('/:propertyId/comments')
     .catch(err=>console.log(err));
 })
 
-.post(authenticate.verifyUser,(req,res,next)=>{
+.post(cors.corsWithOptions ,authenticate.verifyUser,(req,res,next)=>{
     Property.findById(req.params.propertyId)
     .then((home)=>{
         if(home!= null)
@@ -138,7 +142,7 @@ PropertyRouter.route('/:propertyId/comments')
     
 })
 
-.delete(authenticate.verifyUser,(req, res, next) => {
+.delete(cors.corsWithOptions ,authenticate.verifyUser,(req, res, next) => {
     Property.findById(req.params.propertyId)
     .then((home) => {
         if (home != null) {
@@ -163,7 +167,8 @@ PropertyRouter.route('/:propertyId/comments')
 
 /*************************  Specific Comment   ******************************* */
 PropertyRouter.route('/:propertyId/comments/:commentId')
-.get((req,res,next)=>{
+.options(cors.corsWithOptions, (req,res)=>{ res.sendStatus(200)})
+.get(cors.cors , (req,res,next)=>{
     Property.findById(req.params.propertyId)
     .populate('comments.author')
     .then((home)=>{
@@ -186,7 +191,7 @@ PropertyRouter.route('/:propertyId/comments/:commentId')
     })
 })
 
-.put(authenticate.verifyUser,(req,res,next)=>{
+.put(cors.corsWithOptions ,authenticate.verifyUser,(req,res,next)=>{
     Property.findById(req.params.propertyId)
     .then((home) => {
         if (home != null && home.comments.id(req.params.commentId) != null) {
@@ -221,7 +226,7 @@ PropertyRouter.route('/:propertyId/comments/:commentId')
     .catch((err) => console.log(err));
 })
 
-.delete(authenticate.verifyUser,(req, res, next) => {
+.delete(cors.corsWithOptions ,authenticate.verifyUser,(req, res, next) => {
     Property.findById(req.params.propertyId)
     .then((home) => {
         if (home != null && home.comments.id(req.params.commentId) != null) {
