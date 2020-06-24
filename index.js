@@ -11,6 +11,7 @@ const passport = require('passport');
 const PropertyRouter = require('./routes/PropertyRouter');
 const UserRouter = require('./routes/UserRouter');
 const uploadRouter = require('./routes/UploadRouter');
+const commentRouter = require('./routes/CommentRouter');
 //authenticate
 const authenticate=require('./authenticate');
 const config = require('./config');
@@ -48,6 +49,7 @@ app.use(passport.initialize());
 app.use('/user',UserRouter);
 app.use('/home',PropertyRouter);
 app.use('/imageupload', uploadRouter);
+app.use('/comments',commentRouter);
 
 app.use(express.static(__dirname+'/public'));
 
