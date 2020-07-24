@@ -40,6 +40,9 @@ const PropertySchema = new Schema({
     featured:{
         type:Boolean,
         default:false
+    },
+    description:{
+        type:String
     }
 },{
     timestamps:true
