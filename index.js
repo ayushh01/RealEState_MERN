@@ -9,6 +9,7 @@ const FileStore = require('session-file-store')(session);
 const passport = require('passport');
 //importing routes
 const PropertyRouter = require('./routes/PropertyRouter');
+const HotelRouter = require('./routes/HotelRouter');
 const UserRouter = require('./routes/UserRouter');
 const uploadRouter = require('./routes/UploadRouter');
 const commentRouter = require('./routes/CommentRouter');
@@ -49,6 +50,7 @@ app.use(passport.initialize());
 //routes
 app.use('/user',UserRouter);
 app.use('/home',PropertyRouter);
+app.use('/hotel',HotelRouter);
 app.use('/imageupload', uploadRouter);
 app.use('/comments',commentRouter);
 app.use('/forcast',forcast);
