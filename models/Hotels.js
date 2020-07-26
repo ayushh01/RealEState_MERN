@@ -20,17 +20,43 @@ const HotelSchema = new Schema({
         type:Number,
         required:true
     },
-    Bathrooms:{
-        type:Number,
-    },
-    Balconies:{
-        type:Number,
-    },
     featured:{
         type:Boolean,
         default:false
     },
     Breakfast:{
+        type:Boolean,
+        default:false
+    },
+    Wifi:{
+        type:Boolean,
+        default:false
+    },
+    Pool:{
+        type:Boolean,
+        default:false
+    },
+    Spa:{
+        type:Boolean,
+        default:false
+    },
+    Pets:{
+        type:Boolean,
+        default:false
+    },
+    AC:{
+        type:Boolean,
+        default:false
+    },
+    Restaurant:{
+        type:Boolean,
+        default:false
+    },
+    Hotel_bar:{
+        type:Boolean,
+        default:false
+    },
+    Gym:{
         type:Boolean,
         default:false
     },
