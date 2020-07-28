@@ -12,6 +12,7 @@ mailRouter.use(bodyParser.json())
 
 //**************************    About all property     ************************************ */
 mailRouter.route('/')
+.options(cors.corsWithOptions, (req,res)=>{ res.sendStatus(200)})
 .post(cors.corsWithOptions , (req,res,next)=>{
     if(req.body != null) {
         let user = req.body.email;
