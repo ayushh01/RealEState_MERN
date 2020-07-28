@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const passport = require('passport');
+const nodemailer = require("nodemailer");
 //importing routes
 const PropertyRouter = require('./routes/PropertyRouter');
 const HotelRouter = require('./routes/HotelRouter');
@@ -14,6 +15,7 @@ const UserRouter = require('./routes/UserRouter');
 const uploadRouter = require('./routes/UploadRouter');
 const commentRouter = require('./routes/CommentRouter');
 const forcast = require('./routes/forcast');
+const mailRouter = require('./routes/sendmail');
 //authenticate
 const authenticate=require('./authenticate');
 const config = require('./config');
@@ -54,6 +56,7 @@ app.use('/hotel',HotelRouter);
 app.use('/imageupload', uploadRouter);
 app.use('/comments',commentRouter);
 app.use('/forcast',forcast);
+app.use('/sendmail' ,mailRouter);
 
 app.use(express.static(__dirname+'/public'));
 
