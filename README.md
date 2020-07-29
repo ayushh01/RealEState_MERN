@@ -1,5 +1,5 @@
 # RealEState_MERN
-# View Demo :- <a target="_blank" href="https://realestatee.netlify.app">RealEState</a>
+# View Demo :- <a href="https://realestatee.netlify.app" target="_blank">RealEState</a>
 
 This is Server side (nodejs , expressjs) for the project.
 
