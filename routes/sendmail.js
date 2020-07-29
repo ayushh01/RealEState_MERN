@@ -46,8 +46,7 @@ async function sendMail(user, callback) {
       to: user, // list of receivers
       subject: "Help form RealEstate", // Subject line
       text: "Thank you for connecting us we will reach to you soon.",
-      html: `<h1>Thank you!</h1><br>
-      <h4>Thanks for joining us</h4>`
+      html: `<h1>Thank you for visiting my project!</h1>`
     };
   
     // send mail with defined transport object
