@@ -3,7 +3,7 @@ const cors = require('cors');
 
 const app = express();
 
-const whitelist = ['http://localhost:3000' , 'http://localhost:3002']
+const whitelist = ['http://localhost:3000' , 'http://localhost:3002' , 'https://realestatee.netlify.app']
 var corsOptionsDelegate = (req , callback) => {
     var corsOptions;
 
